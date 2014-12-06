@@ -51,7 +51,7 @@ public:
 
 //插入一个节点
 void Graph::insertVertex(char vertexName){
-    graphVertex newVertex=*new graphVertex();
+    graphVertex newVertex=*new graphVertex();//建一个新的节点
     newVertex.vertexName=vertexName;
     newVertex.edge=nullptr;
     vertexTable.push_back(newVertex);
@@ -59,7 +59,48 @@ void Graph::insertVertex(char vertexName){
 
 //插入一条带权值的边
 void Graph::insertEdge(int vertex1, int vertex2, int weight){
+    graphEdge newEdge1 = *new graphEdge();
+    newEdge1.dest = vertex2;
+    newEdge1.weight = weight;
+    newEdge1.nextEdge = nullptr;
+    graphEdge *temp, *front;
+    //将新的edge连接到vertex1的边中
+    if (vertexTable[vertex1].edge == nullptr) {//判断vertex1有没有边
+        vertexTable[vertex1].edge = &newEdge1;
+    }else{
+        temp = vertexTable[vertex1].edge;
+        front = temp;
+        while (temp != nullptr) {
+            if (temp == vertexTable[vertex1].edge) {
+                temp = temp->nextEdge;
+            }else{
+                front = temp;
+                temp = temp->nextEdge;
+            }
+        }
+        front->nextEdge = &newEdge1;
+    }
     
+    //将新的edge连接到vertex2的边中
+    graphEdge newEdge2 = *new graphEdge();
+    newEdge2.dest = vertex1;
+    newEdge2.weight = weight;
+    newEdge2.nextEdge = nullptr;
+    if (vertexTable[vertex2].edge == nullptr) {//判断vertex2有没有边
+        vertexTable[vertex2].edge = &newEdge2;
+    }else{
+        temp = vertexTable[vertex2].edge;
+        front = temp;
+        while (temp != nullptr) {
+            if (temp == vertexTable[vertex2].edge) {
+                temp = temp->nextEdge;
+            }else{
+                front = temp;
+                temp = temp->nextEdge;
+            }
+        }
+        front->nextEdge = &newEdge2;
+    }
 }
 
 //移除一个节点
