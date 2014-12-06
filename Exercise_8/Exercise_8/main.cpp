@@ -59,7 +59,7 @@ public:
     int getWeight(int vertex1,int vertex2);//得到vertex1和vertex2两个节点间边的权重
     int getFirstNeighbor(int vertex);//得到vertex的第一个邻接节点
     int getNextNeighbor(int vertext1,int vertext2);//得到vertex1的邻接节点vertex2的下一邻接节点
-    void MinSpanTree(char startVertex);//计算最小生成树
+    void getMinSpanTree(char startVertex);//计算最小生成树
     void printMinSpanTree();//打印最小生成树
 };
 
@@ -157,7 +157,7 @@ int Graph::getNextNeighbor(int vertex1Num, int vertex2Num){
 }
 
 //计算最小生成树
-void Graph::MinSpanTree(char startVertex){
+void Graph::getMinSpanTree(char startVertex){
     int i = 0;
     graphEdge *minWeight, *temp;
     for (graphVertex a : vertexTable){//找到startVertex节点
@@ -167,22 +167,28 @@ void Graph::MinSpanTree(char startVertex){
             i++;
         }
     }
-    while (vertexSet.size() == size-1) {
+    vertexSet.insert(i);//将第一个节点存入set
+    //用Prim算法找到最小生成树
+    while (vertexSet.size() == size) {//当size个节点全部在vertexSet中时找到最小生成树
         temp = vertexTable[i].edge;
         minWeight = temp;
         while (temp != nullptr) {
-            if (minWeight->weight > temp->weight) {
+            if (minWeight->weight > temp->weight && minWeight->weight != -1) {
                 minWeight = temp;
             }
             temp = temp->nextEdge;
         }
-        minSpanTreeNode newMinSpanTreeNode;
-        newMinSpanTreeNode.vertexName1 = vertexTable[i].vertexName;
-        newMinSpanTreeNode.vertexName2 = vertexTable[minWeight->dest].vertexName;
-        newMinSpanTreeNode.edgeWeight = minWeight->weight;
-        minSpanTree.push_back(newMinSpanTreeNode);
-        i = minWeight->dest;
-        vertexSet.insert(minWeight->dest);
+        if(!vertexSet.count(i)){//当vertexSet中没有i节点时将i存入set
+            minSpanTreeNode newMinSpanTreeNode;
+            newMinSpanTreeNode.vertexName1 = vertexTable[i].vertexName;
+            newMinSpanTreeNode.vertexName2 = vertexTable[minWeight->dest].vertexName;
+            newMinSpanTreeNode.edgeWeight = minWeight->weight;
+            minSpanTree.push_back(newMinSpanTreeNode);
+            i = minWeight->dest;
+            vertexSet.insert(minWeight->dest);
+        }else{//当vertexSet中有i节点时将权值标为－1，重新寻找权值最小边
+            minWeight->weight = -1;
+        }
     }
 }
 
