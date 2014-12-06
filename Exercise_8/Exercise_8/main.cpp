@@ -12,7 +12,87 @@
 //用无向图解决问题，n个小区之间的电网都能相互接通，既要求为联通图，每条电线有相应权值，需要找出最小生成树
 
 #include <iostream>
+#include <vector>
+#define RUN
 using namespace std;
+
+struct graphEdge{
+    int dest;
+    int weight;
+    graphEdge *nextEdge;
+};
+
+struct graphVertex{
+    char vertexName;
+    graphEdge *edge;
+};
+
+
+class Graph{
+private:
+    vector<graphVertex> vertexTable;
+    
+public:
+    Graph(){
+        vertexTable=*new vector<graphVertex>();
+    }
+    ~Graph(){
+        
+    }
+    void insertVertex(char vertex);
+    void insertEdge(int vertex1,int vertex2,int weight);
+    void removeVertex(char vertex);
+    void removeEdge(int vertex1,int vertex2);
+    bool isEmpty();
+    int getWeight(int vertex1,int vertex2);
+    int getFirstNeighbor(int vertex);
+    int getNextNeighbor(int vertext1,int vertext2);
+};
+
+//插入一个节点
+void Graph::insertVertex(char vertexName){
+    graphVertex newVertex=*new graphVertex();
+    newVertex.vertexName=vertexName;
+    newVertex.edge=nullptr;
+    vertexTable.push_back(newVertex);
+}
+
+//插入一条带权值的边
+void Graph::insertEdge(int vertex1, int vertex2, int weight){
+    
+}
+
+//移除一个节点
+void Graph::removeVertex(char vertex){
+    
+}
+
+//移除一条边
+void Graph::removeEdge(int vertex1, int vertex2){
+    
+}
+
+//判断图是否为空
+bool Graph::isEmpty(){
+    return vertexTable.empty();
+}
+
+//得到两个节点边的权值，返回值为权值
+int Graph::getWeight(int vertex1, int vertex2){
+    return 1;
+}
+
+//得到vertex的第一个？？
+int Graph::getFirstNeighbor(int vertex){
+    return 1;
+}
+
+//得到vertex的？？？
+int Graph::getNextNeighbor(int vertex1, int vertex2){
+    return 1;
+}
+
+
 
 
 
@@ -26,5 +106,12 @@ int main(int argc, const char * argv[]) {
     cout<<"**          E --- 退出  程序          **"<<endl;
     cout<<"======================================"<<endl;
     
+#ifdef RUN
+    Graph graph = *new Graph();
+    char vertex;
+    cout<<"input:";
+    cin>>vertex;
+    graph.insertVertex(vertex);
+#endif
     
 }
