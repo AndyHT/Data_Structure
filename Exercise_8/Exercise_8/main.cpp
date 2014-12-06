@@ -13,33 +13,40 @@
 
 #include <iostream>
 #include <vector>
-#include <map>
 #include <set>
 #define RUN
 using namespace std;
 
-struct graphEdge{
-    int dest;
-    int weight;
-    graphEdge *nextEdge;
-};
-
-struct graphVertex{
-    char vertexName;
-    graphEdge *edge;
-};
-
 
 class Graph{
 private:
-    vector<graphVertex> vertexTable;
-    map<int , char> vertexMap;
-    set<int> vertexSet;
+    struct graphEdge{
+        int dest;
+        int weight;
+        graphEdge *nextEdge;
+    };
+    
+    struct graphVertex{
+        char vertexName;
+        graphEdge *edge;
+    };
+    
+    struct minSpanTreeNode{
+        char vertexName1;
+        int edgeWeight;
+        char vertexName2;
+    };
+
+    int size;
+    vector<graphVertex> vertexTable;//邻接表vector
+    set<int> vertexSet;//存放最小生成树set
+    vector<minSpanTreeNode> minSpanTree;//存放最小生成树
 public:
-    Graph(){
-        vertexTable = *new vector<graphVertex>();//邻接表vector
-        vertexMap = *new map<int, char>();//存放节点名字对应节点编号的map
-        vertexSet = *new set<int>();//存放最小生成树set
+    Graph(int a){
+        size = a;
+        vertexTable = *new vector<graphVertex>();
+        vertexSet = *new set<int>();
+        minSpanTree = *new vector<minSpanTreeNode>();
     }
     ~Graph(){
         
@@ -52,8 +59,8 @@ public:
     int getWeight(int vertex1,int vertex2);//得到vertex1和vertex2两个节点间边的权重
     int getFirstNeighbor(int vertex);//得到vertex的第一个邻接节点
     int getNextNeighbor(int vertext1,int vertext2);//得到vertex1的邻接节点vertex2的下一邻接节点
-    void MinSpanTree();
-    void printMinSpanTree();
+    void MinSpanTree(char startVertex);//计算最小生成树
+    void printMinSpanTree();//打印最小生成树
 };
 
 //插入一个节点
@@ -131,25 +138,62 @@ int Graph::getWeight(int vertex1, int vertex2){
 }
 
 //得到vertex的第一个邻接节点
-int Graph::getFirstNeighbor(int vertex){
-    return 1;
+int Graph::getFirstNeighbor(int vertexNum){
+    if (vertexTable[vertexNum].edge != nullptr){
+        return vertexTable[vertexNum].edge->dest;
+    }else{
+        return -1;
+    }
 }
 
 //得到vertex1的邻接节点vertex2的下一邻接节点
-int Graph::getNextNeighbor(int vertex1, int vertex2){
-    return 1;
+int Graph::getNextNeighbor(int vertex1Num, int vertex2Num){
+    graphEdge *p;
+    p=vertexTable[vertex1Num].edge;
+    while (p != nullptr && p->dest != vertex2Num) {
+        p = p->nextEdge;
+    }
+    return p->nextEdge->dest;
 }
 
 //计算最小生成树
-void Graph::MinSpanTree(){
-    
+void Graph::MinSpanTree(char startVertex){
+    int i = 0;
+    graphEdge *minWeight, *temp;
+    for (graphVertex a : vertexTable){//找到startVertex节点
+        if (a.vertexName==startVertex) {
+            break;
+        }else{
+            i++;
+        }
+    }
+    while (vertexSet.size() == size-1) {
+        temp = vertexTable[i].edge;
+        minWeight = temp;
+        while (temp != nullptr) {
+            if (minWeight->weight > temp->weight) {
+                minWeight = temp;
+            }
+            temp = temp->nextEdge;
+        }
+        minSpanTreeNode newMinSpanTreeNode;
+        newMinSpanTreeNode.vertexName1 = vertexTable[i].vertexName;
+        newMinSpanTreeNode.vertexName2 = vertexTable[minWeight->dest].vertexName;
+        newMinSpanTreeNode.edgeWeight = minWeight->weight;
+        minSpanTree.push_back(newMinSpanTreeNode);
+        i = minWeight->dest;
+        vertexSet.insert(minWeight->dest);
+    }
 }
 
 //打印最小生成树
 void Graph::printMinSpanTree(){
-    
+    for (minSpanTreeNode a : minSpanTree){
+        cout<<a.vertexName1;
+        cout<<"-<"<<a.edgeWeight<<">-";
+        cout<<a.vertexName2<<'\t';
+    }
 }
-
 
 
 int main(int argc, const char * argv[]) {
@@ -163,7 +207,10 @@ int main(int argc, const char * argv[]) {
     cout<<"======================================"<<endl;
     
 #ifdef RUN
-    Graph graph = *new Graph();
+    int graphSize;
+    cout<<"sise:";
+    cin>>graphSize;
+    Graph graph = *new Graph(graphSize);
     char vertex;
     cout<<"input:";
     cin>>vertex;
