@@ -13,6 +13,8 @@
 
 #include <iostream>
 #include <vector>
+#include <map>
+#include <set>
 #define RUN
 using namespace std;
 
@@ -31,22 +33,27 @@ struct graphVertex{
 class Graph{
 private:
     vector<graphVertex> vertexTable;
-    
+    map<int , char> vertexMap;
+    set<int> vertexSet;
 public:
     Graph(){
-        vertexTable=*new vector<graphVertex>();
+        vertexTable = *new vector<graphVertex>();//邻接表vector
+        vertexMap = *new map<int, char>();//存放节点名字对应节点编号的map
+        vertexSet = *new set<int>();//存放最小生成树set
     }
     ~Graph(){
         
     }
-    void insertVertex(char vertex);
-    void insertEdge(int vertex1,int vertex2,int weight);
-    void removeVertex(char vertex);
-    void removeEdge(int vertex1,int vertex2);
-    bool isEmpty();
-    int getWeight(int vertex1,int vertex2);
-    int getFirstNeighbor(int vertex);
-    int getNextNeighbor(int vertext1,int vertext2);
+    void insertVertex(char vertex);//增加节点方法
+    void insertEdge(int vertex1,int vertex2,int weight);//增加一条带权重的边
+    void removeVertex(char vertex);//remove一个节点
+    void removeEdge(int vertex1,int vertex2);// remove一条边
+    bool isEmpty();//判断图是否为空，空返回true
+    int getWeight(int vertex1,int vertex2);//得到vertex1和vertex2两个节点间边的权重
+    int getFirstNeighbor(int vertex);//得到vertex的第一个邻接节点
+    int getNextNeighbor(int vertext1,int vertext2);//得到vertex1的邻接节点vertex2的下一邻接节点
+    void MinSpanTree();
+    void printMinSpanTree();
 };
 
 //插入一个节点
@@ -123,17 +130,25 @@ int Graph::getWeight(int vertex1, int vertex2){
     return 1;
 }
 
-//得到vertex的第一个？？
+//得到vertex的第一个邻接节点
 int Graph::getFirstNeighbor(int vertex){
     return 1;
 }
 
-//得到vertex的？？？
+//得到vertex1的邻接节点vertex2的下一邻接节点
 int Graph::getNextNeighbor(int vertex1, int vertex2){
     return 1;
 }
 
+//计算最小生成树
+void Graph::MinSpanTree(){
+    
+}
 
+//打印最小生成树
+void Graph::printMinSpanTree(){
+    
+}
 
 
 
