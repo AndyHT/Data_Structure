@@ -92,8 +92,7 @@ void Graph::insertEdge(char vertexName1, char vertexName2, int weight){
     
     //将新的edge连接到vertex1的边中
     temp1 = vertexTable[vertexNum1].edge;
-    temp2 = temp1->nextEdge;
-    if (temp1 == NULL) {//判断vertex1有没有边,有bug
+    if (temp1 == NULL) {//判断vertex1有没有边
         vertexTable[vertexNum1].edge = newEdge1;
     }else{
         temp2 = temp1->nextEdge;
@@ -111,10 +110,10 @@ void Graph::insertEdge(char vertexName1, char vertexName2, int weight){
     
     //将新的edge连接到vertex2的边中
     temp1 = vertexTable[vertexNum2].edge;
-    temp2 = temp2->nextEdge;
     if (temp1 == NULL) {//判断vertex2有没有边
         vertexTable[vertexNum2].edge = newEdge2;
     }else{
+        temp2 = temp1->nextEdge;
         while (temp2 != NULL) {
             temp1 = temp2;
             temp2 = temp1->nextEdge;
@@ -230,7 +229,7 @@ int main(int argc, const char * argv[]) {
         testGraph.insertVertex(a);//测试insertVertex()函数,pass
     }
     
-    testGraph.insertEdge('a' , 'b', 1);//测试insertEdge()函数,有bug
+    testGraph.insertEdge('a' , 'b', 1);//测试insertEdge()函数,pass
     testGraph.insertEdge('a' , 'c', 1);
     testGraph.insertEdge('b' , 'd', 1);
     testGraph.insertEdge('d' , 'e', 1);
