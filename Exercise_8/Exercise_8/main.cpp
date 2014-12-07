@@ -14,6 +14,8 @@
 #include <iostream>
 #include <vector>
 #include <set>
+#include <string>
+#include <map>
 #define RUN
 using namespace std;
 
@@ -38,6 +40,7 @@ private:
     };
 
     int size;
+    map<char ,int> vertexMap;//存放节点名称和节点值map
     vector<graphVertex> vertexTable;//邻接表vector
     set<int> vertexSet;//存放最小生成树set
     vector<minSpanTreeNode> minSpanTree;//存放最小生成树
@@ -52,7 +55,7 @@ public:
         
     }
     void insertVertex(char vertex);//增加节点方法
-    void insertEdge(int vertex1,int vertex2,int weight);//增加一条带权重的边
+    void insertEdge(char vertex1,char vertex2,int weight);//插入一条带权重的边
     void removeVertex(char vertex);//remove一个节点
     void removeEdge(int vertex1,int vertex2);// remove一条边
     bool isEmpty();//判断图是否为空，空返回true
@@ -63,58 +66,62 @@ public:
     void printMinSpanTree();//打印最小生成树
 };
 
+
+
+//方法实现
 //插入一个节点
 void Graph::insertVertex(char vertexName){
     graphVertex newVertex=*new graphVertex();//建一个新的节点
     newVertex.vertexName=vertexName;
     newVertex.edge=nullptr;
+    vertexMap.insert(pair<char, int>(vertexName,vertexTable.size()));//将节点名字和节点值存入vertexMap中
     vertexTable.push_back(newVertex);
 }
 
 //插入一条带权值的边
-void Graph::insertEdge(int vertex1, int vertex2, int weight){
-    graphEdge newEdge1 = *new graphEdge();
-    newEdge1.dest = vertex2;
-    newEdge1.weight = weight;
-    newEdge1.nextEdge = nullptr;
-    graphEdge *temp, *front;
+void Graph::insertEdge(char vertexName1, char vertexName2, int weight){
+    int vertexNum1 = vertexMap.find(vertexName1)->second;
+    int vertexNum2 = vertexMap.find(vertexName2)->second;
+    graphEdge *temp1 = nullptr;
+    graphEdge *temp2 = nullptr;//临时指针用于将newEdge链入链表
+    
+    graphEdge *newEdge1 = new graphEdge();
+    newEdge1->dest = vertexNum2;
+    newEdge1->weight = weight;
+    newEdge1->nextEdge = nullptr;
+    
     //将新的edge连接到vertex1的边中
-    if (vertexTable[vertex1].edge == nullptr) {//判断vertex1有没有边
-        vertexTable[vertex1].edge = &newEdge1;
+    temp1 = vertexTable[vertexNum1].edge;
+    temp2 = temp1->nextEdge;
+    if (temp1 == NULL) {//判断vertex1有没有边,有bug
+        vertexTable[vertexNum1].edge = newEdge1;
     }else{
-        temp = vertexTable[vertex1].edge;
-        front = temp;
-        while (temp != nullptr) {
-            if (temp == vertexTable[vertex1].edge) {
-                temp = temp->nextEdge;
-            }else{
-                front = temp;
-                temp = temp->nextEdge;
-            }
+        temp2 = temp1->nextEdge;
+        while (temp2 != NULL) {
+            temp1 = temp2;
+            temp2 = temp1->nextEdge;
         }
-        front->nextEdge = &newEdge1;
+        temp1->nextEdge = newEdge1;
     }
     
+    graphEdge *newEdge2 = new graphEdge();
+    newEdge2->dest = vertexNum1;
+    newEdge2->weight = weight;
+    newEdge2->nextEdge = nullptr;
+    
     //将新的edge连接到vertex2的边中
-    graphEdge newEdge2 = *new graphEdge();
-    newEdge2.dest = vertex1;
-    newEdge2.weight = weight;
-    newEdge2.nextEdge = nullptr;
-    if (vertexTable[vertex2].edge == nullptr) {//判断vertex2有没有边
-        vertexTable[vertex2].edge = &newEdge2;
+    temp1 = vertexTable[vertexNum2].edge;
+    temp2 = temp2->nextEdge;
+    if (temp1 == NULL) {//判断vertex2有没有边
+        vertexTable[vertexNum2].edge = newEdge2;
     }else{
-        temp = vertexTable[vertex2].edge;
-        front = temp;
-        while (temp != nullptr) {
-            if (temp == vertexTable[vertex2].edge) {
-                temp = temp->nextEdge;
-            }else{
-                front = temp;
-                temp = temp->nextEdge;
-            }
+        while (temp2 != NULL) {
+            temp1 = temp2;
+            temp2 = temp1->nextEdge;
         }
-        front->nextEdge = &newEdge2;
+        temp1->nextEdge = newEdge2;
     }
+    
 }
 
 //移除一个节点
@@ -214,13 +221,95 @@ int main(int argc, const char * argv[]) {
     
 #ifdef RUN
     int graphSize;
-    cout<<"sise:";
-    cin>>graphSize;
-    Graph graph = *new Graph(graphSize);
-    char vertex;
-    cout<<"input:";
-    cin>>vertex;
-    graph.insertVertex(vertex);
+    cout<<"sise:6"<<endl;
+    graphSize = 6;
+    Graph testGraph = *new Graph(graphSize);
+    char vertex[] = {'a','b','c','d','e','f'};
+    cout<<"vertex:'a','b','c','d','e','f'"<<endl;
+    for (char a: vertex){
+        testGraph.insertVertex(a);//测试insertVertex()函数,pass
+    }
+    
+    testGraph.insertEdge('a' , 'b', 1);//测试insertEdge()函数,有bug
+    testGraph.insertEdge('a' , 'c', 1);
+    testGraph.insertEdge('b' , 'd', 1);
+    testGraph.insertEdge('d' , 'e', 1);
+    testGraph.insertEdge('e' , 'f', 1);
+    
+#else
+    char order;
+    int graphSize;
+    string orderString;
+    char vertexName1;
+    char vertexName2;
+    int edgeWeight;
+    Graph *minSpanTree = nullptr;
+    while (1) {
+        cout<<"请选择操作:";
+        cin>>order;
+        switch (order) {
+            case 'a':
+            case 'A':
+                cout<<"请输入顶点的个数:";
+                cin>>graphSize;
+                minSpanTree = new Graph(graphSize);
+                cout<<"请依次输入各顶点的名称:";
+                cin>>graphSize;
+                for (char verTexName :orderString){
+                    if (verTexName != ' ') {
+                        minSpanTree->insertVertex(verTexName);
+                    }
+                }
+                cout<<endl;
+                break;
+            case 'b':
+            case 'B':
+                if (nullptr == minSpanTree) {
+                    cout<<"请先创建电网顶点!"<<endl;
+                }else{
+                    while (1) {
+                        cout<<"请输入两个顶点及边:";
+                        scanf("%c %c %d",vertexName1,vertexName2,edgeWeight);//scanf怎么用？
+                        if (vertexName1 == '?') {
+                            break;
+                        }
+                        minSpanTree->insertEdge(vertexName1, vertexName2, edgeWeight);
+                        }
+                    }
+                cout<<endl;
+                break;
+            case 'c':
+            case 'C':
+                if (nullptr == minSpanTree) {
+                    cout<<"请先创建电网顶点!"<<endl;
+                }else{
+                    cout<<"请输入起始顶点:";
+                    cin>>vertexName1;
+                    minSpanTree->getMinSpanTree(vertexName1);
+                    cout<<"生成Prim最小生成树!"<<endl;
+                    cout<<endl;
+                }
+                break;
+            case 'd':
+            case 'D':
+                if (nullptr == minSpanTree) {
+                    cout<<"请先创建电网顶点!"<<endl;
+                }else{
+                    cout<<"最小生成树的顶点及边为:"<<endl;
+                    minSpanTree->printMinSpanTree();
+
+                }
+                break;
+            case 'e':
+            case 'E':
+                exit(0);
+                break;
+            default:
+                cout<<"输入有误，请重新输入!"<<endl;
+                break;
+        }
+
+    }
 #endif
     
 }
