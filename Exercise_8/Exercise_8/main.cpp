@@ -82,8 +82,8 @@ void Graph::insertVertex(char vertexName){
 void Graph::insertEdge(char vertexName1, char vertexName2, int weight){
     int vertexNum1 = vertexMap.find(vertexName1)->second;
     int vertexNum2 = vertexMap.find(vertexName2)->second;
-    graphEdge *temp1 = nullptr;
-    graphEdge *temp2 = nullptr;//临时指针用于将newEdge链入链表
+    
+    graphEdge *temp = nullptr;//临时指针用于将newEdge链入链表
     
     graphEdge *newEdge1 = new graphEdge();
     newEdge1->dest = vertexNum2;
@@ -91,16 +91,14 @@ void Graph::insertEdge(char vertexName1, char vertexName2, int weight){
     newEdge1->nextEdge = nullptr;
     
     //将新的edge连接到vertex1的边中
-    temp1 = vertexTable[vertexNum1].edge;
-    if (temp1 == NULL) {//判断vertex1有没有边
+    temp = vertexTable[vertexNum1].edge;
+    if (temp == nullptr) {//判断vertex1有没有边
         vertexTable[vertexNum1].edge = newEdge1;
     }else{
-        temp2 = temp1->nextEdge;
-        while (temp2 != NULL) {
-            temp1 = temp2;
-            temp2 = temp1->nextEdge;
+        while (temp->nextEdge != nullptr) {
+            temp = temp->nextEdge;
         }
-        temp1->nextEdge = newEdge1;
+        temp ->nextEdge = newEdge1;
     }
     
     graphEdge *newEdge2 = new graphEdge();
@@ -109,18 +107,16 @@ void Graph::insertEdge(char vertexName1, char vertexName2, int weight){
     newEdge2->nextEdge = nullptr;
     
     //将新的edge连接到vertex2的边中
-    temp1 = vertexTable[vertexNum2].edge;
-    if (temp1 == NULL) {//判断vertex2有没有边
+    temp = vertexTable[vertexNum2].edge;
+    if (temp == nullptr) {//判断vertex2有没有边
         vertexTable[vertexNum2].edge = newEdge2;
     }else{
-        temp2 = temp1->nextEdge;
-        while (temp2 != NULL) {
-            temp1 = temp2;
-            temp2 = temp1->nextEdge;
+        while (temp->nextEdge != nullptr) {
+            temp = temp->nextEdge;
         }
-        temp1->nextEdge = newEdge2;
+        temp ->nextEdge = newEdge2;
     }
-    
+    temp = nullptr;
 }
 
 //移除一个节点
@@ -164,36 +160,33 @@ int Graph::getNextNeighbor(int vertex1Num, int vertex2Num){
 
 //计算最小生成树
 void Graph::getMinSpanTree(char startVertex){
-    int i = 0;
-    graphEdge *minWeight, *temp;
-    for (graphVertex a : vertexTable){//找到startVertex节点
-        if (a.vertexName==startVertex) {
-            break;
-        }else{
-            i++;
-        }
-    }
-    vertexSet.insert(i);//将第一个节点存入set
+    const auto STARTNUM = vertexMap.find(startVertex)->second;//得到起始节点的节点值
+    auto i = STARTNUM;
+    graphEdge *minWeightVertexPoint, *tempEdgePoint;
+    minWeightVertexPoint = tempEdgePoint = nullptr;
+//    vertexSet.insert(STARTNUM);//将第一个节点存入set
     //用Prim算法找到最小生成树
-    while (vertexSet.size() == size) {//当size个节点全部在vertexSet中时找到最小生成树
-        temp = vertexTable[i].edge;
-        minWeight = temp;
-        while (temp != nullptr) {
-            if (minWeight->weight > temp->weight && minWeight->weight != -1) {
-                minWeight = temp;
+    while (vertexSet.size() != size) {//当size个节点全部在vertexSet中时找到最小生成树,bug!!!!死循环了!
+        tempEdgePoint = vertexTable[i].edge;
+        minWeightVertexPoint = tempEdgePoint;
+        while (tempEdgePoint != nullptr) {
+            if (minWeightVertexPoint->weight > tempEdgePoint->weight && minWeightVertexPoint->weight != -1) {
+                minWeightVertexPoint = tempEdgePoint;
             }
-            temp = temp->nextEdge;
+            tempEdgePoint = tempEdgePoint->nextEdge;
         }
         if(!vertexSet.count(i)){//当vertexSet中没有i节点时将i存入set
-            minSpanTreeNode newMinSpanTreeNode;
-            newMinSpanTreeNode.vertexName1 = vertexTable[i].vertexName;
-            newMinSpanTreeNode.vertexName2 = vertexTable[minWeight->dest].vertexName;
-            newMinSpanTreeNode.edgeWeight = minWeight->weight;
-            minSpanTree.push_back(newMinSpanTreeNode);
-            i = minWeight->dest;
-            vertexSet.insert(minWeight->dest);
+            vertexSet.insert(i);
+            minSpanTreeNode *newMinSpanTreeNode = new minSpanTreeNode();
+            newMinSpanTreeNode->vertexName1 = vertexTable[i].vertexName;
+            newMinSpanTreeNode->vertexName2 = vertexTable[minWeightVertexPoint->dest].vertexName;
+            newMinSpanTreeNode->edgeWeight = minWeightVertexPoint->weight;
+            minWeightVertexPoint->weight = -1;
+            minSpanTree.push_back(*newMinSpanTreeNode);
+            i = minWeightVertexPoint->dest;
+//            vertexSet.insert(minWeightVertexPoint->dest);
         }else{//当vertexSet中有i节点时将权值标为－1，重新寻找权值最小边
-            minWeight->weight = -1;
+            minWeightVertexPoint->weight = -1;
         }
     }
 }
@@ -234,7 +227,10 @@ int main(int argc, const char * argv[]) {
     testGraph.insertEdge('b' , 'd', 1);
     testGraph.insertEdge('d' , 'e', 1);
     testGraph.insertEdge('e' , 'f', 1);
+    cout<<"电网建成"<<endl;
     
+    testGraph.getMinSpanTree('a');//测试getMinSpanTree()函数,bug
+    testGraph.printMinSpanTree();
 #else
     char order;
     int graphSize;
