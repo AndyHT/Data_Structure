@@ -20,6 +20,7 @@
 using namespace std;
 
 
+
 class Graph{
 private:
     struct graphEdge{
@@ -44,12 +45,14 @@ private:
     vector<graphVertex> vertexTable;//邻接表vector
     set<int> vertexSet;//存放最小生成树set
     vector<minSpanTreeNode> minSpanTree;//存放最小生成树
+    vector<graphEdge> edgeSequence;//用于边按权重排序
 public:
     Graph(int a){
         size = a;
         vertexTable = *new vector<graphVertex>();
         vertexSet = *new set<int>();
         minSpanTree = *new vector<minSpanTreeNode>();
+        edgeSequence = *new vector<graphEdge>();
     }
     ~Graph(){
         
@@ -64,6 +67,17 @@ public:
     int getNextNeighbor(int vertext1,int vertext2);//得到vertex1的邻接节点vertex2的下一邻接节点
     void getMinSpanTree(char startVertex);//计算最小生成树
     void printMinSpanTree();//打印最小生成树
+    
+    //对边按权重排序edgeSequence函数
+    bool compare ( graphEdge const& a, graphEdge const& b ){
+        return a.weight < b.weight;
+    }
+    graphEdge* getMinWeightSequence(){
+        sort(edgeSequence.begin(), edgeSequence.end() , &Graph::compare);
+        return &edgeSequence[0];
+    }
+    
+    
 };
 
 
@@ -160,34 +174,22 @@ int Graph::getNextNeighbor(int vertex1Num, int vertex2Num){
 
 //计算最小生成树
 void Graph::getMinSpanTree(char startVertex){
-    const auto STARTNUM = vertexMap.find(startVertex)->second;//得到起始节点的节点值
-    auto i = STARTNUM;
-    graphEdge *minWeightVertexPoint, *tempEdgePoint;
-    minWeightVertexPoint = tempEdgePoint = nullptr;
-//    vertexSet.insert(STARTNUM);//将第一个节点存入set
-    //用Prim算法找到最小生成树
-    while (vertexSet.size() != size) {//当size个节点全部在vertexSet中时找到最小生成树,bug!!!!死循环了!
-        tempEdgePoint = vertexTable[i].edge;
-        minWeightVertexPoint = tempEdgePoint;
-        while (tempEdgePoint != nullptr) {
-            if (minWeightVertexPoint->weight > tempEdgePoint->weight && minWeightVertexPoint->weight != -1) {
-                minWeightVertexPoint = tempEdgePoint;
+    graphEdge *temp = nullptr;
+    graphEdge *minWeightEdge = nullptr;
+    auto minWeightVertexNum = vertexMap.find(startVertex)->second;
+    while ( vertexSet.size() != size) {
+        vertexSet.insert(minWeightVertexNum);//将节点值vertexNum存入vertexSet中
+        for ( auto a : vertexSet) {//将符合条件的边存入edgeSequence中
+            temp = vertexTable[a].edge;
+            while (temp->nextEdge != nullptr) {
+                if ( !vertexSet.count(temp->dest) ) {
+                    edgeSequence.push_back(*temp);
+                }
+                temp = temp->nextEdge;
             }
-            tempEdgePoint = tempEdgePoint->nextEdge;
         }
-        if(!vertexSet.count(i)){//当vertexSet中没有i节点时将i存入set
-            vertexSet.insert(i);
-            minSpanTreeNode *newMinSpanTreeNode = new minSpanTreeNode();
-            newMinSpanTreeNode->vertexName1 = vertexTable[i].vertexName;
-            newMinSpanTreeNode->vertexName2 = vertexTable[minWeightVertexPoint->dest].vertexName;
-            newMinSpanTreeNode->edgeWeight = minWeightVertexPoint->weight;
-            minWeightVertexPoint->weight = -1;
-            minSpanTree.push_back(*newMinSpanTreeNode);
-            i = minWeightVertexPoint->dest;
-//            vertexSet.insert(minWeightVertexPoint->dest);
-        }else{//当vertexSet中有i节点时将权值标为－1，重新寻找权值最小边
-            minWeightVertexPoint->weight = -1;
-        }
+        minWeightEdge = getMinWeightSequence(); //按权重对edgeSequence的边进行排序,将最小权值边赋给minWeightEdge
+        minWeightVertexNum =  minWeightEdge->dest;
     }
 }
 
