@@ -19,33 +19,37 @@
 #define RUN
 using namespace std;
 
+//各种节点struct
+struct graphEdge{
+    int dest;
+    int weight;
+    graphEdge *nextEdge;
+};
 
+struct graphVertex{
+    char vertexName;
+    graphEdge *edge;
+};
+
+struct minSpanTreeNode{
+    char vertexName1;
+    int edgeWeight;
+    char vertexName2;
+};
+
+bool compare ( graphEdge const& a, graphEdge const& b ){
+    return a.weight < b.weight;
+}
 
 class Graph{
 private:
-    struct graphEdge{
-        int dest;
-        int weight;
-        graphEdge *nextEdge;
-    };
-    
-    struct graphVertex{
-        char vertexName;
-        graphEdge *edge;
-    };
-    
-    struct minSpanTreeNode{
-        char vertexName1;
-        int edgeWeight;
-        char vertexName2;
-    };
-
     int size;
     map<char ,int> vertexMap;//存放节点名称和节点值map
     vector<graphVertex> vertexTable;//邻接表vector
     set<int> vertexSet;//存放最小生成树set
     vector<minSpanTreeNode> minSpanTree;//存放最小生成树
     vector<graphEdge> edgeSequence;//用于边按权重排序
+    
 public:
     Graph(int a){
         size = a;
@@ -67,17 +71,6 @@ public:
     int getNextNeighbor(int vertext1,int vertext2);//得到vertex1的邻接节点vertex2的下一邻接节点
     void getMinSpanTree(char startVertex);//计算最小生成树
     void printMinSpanTree();//打印最小生成树
-    
-    //对边按权重排序edgeSequence函数
-    bool compare ( graphEdge const& a, graphEdge const& b ){
-        return a.weight < b.weight;
-    }
-    graphEdge* getMinWeightSequence(){
-        sort(edgeSequence.begin(), edgeSequence.end() , &Graph::compare);
-        return &edgeSequence[0];
-    }
-    
-    
 };
 
 
@@ -175,21 +168,30 @@ int Graph::getNextNeighbor(int vertex1Num, int vertex2Num){
 //计算最小生成树
 void Graph::getMinSpanTree(char startVertex){
     graphEdge *temp = nullptr;
-    graphEdge *minWeightEdge = nullptr;
+    minSpanTreeNode node = *new minSpanTreeNode();
     auto minWeightVertexNum = vertexMap.find(startVertex)->second;
     while ( vertexSet.size() != size) {
         vertexSet.insert(minWeightVertexNum);//将节点值vertexNum存入vertexSet中
         for ( auto a : vertexSet) {//将符合条件的边存入edgeSequence中
             temp = vertexTable[a].edge;
-            while (temp->nextEdge != nullptr) {
+            while ( temp != nullptr) {
                 if ( !vertexSet.count(temp->dest) ) {
                     edgeSequence.push_back(*temp);
                 }
                 temp = temp->nextEdge;
             }
         }
-        minWeightEdge = getMinWeightSequence(); //按权重对edgeSequence的边进行排序,将最小权值边赋给minWeightEdge
-        minWeightVertexNum =  minWeightEdge->dest;
+        sort(edgeSequence.begin(), edgeSequence.end() , &compare);//按权重对edgeSequence的边进行排序
+        
+        //将找到的最小权重边存入minSpanTree中
+        node.vertexName1 = vertexTable[minWeightVertexNum].vertexName;//不应该将minWeightVertexNum的节点名存入node.vertexName1中,它有可能不是最小权重边的节点,如何解决这个问题!!!!!!!!
+        
+        node.vertexName2 = vertexTable[edgeSequence[0].dest].vertexName;
+        node.edgeWeight = edgeSequence[0].weight;
+        minSpanTree.push_back(node);
+        
+        minWeightVertexNum =  edgeSequence[0].dest;
+        edgeSequence.clear();
     }
 }
 
@@ -200,6 +202,7 @@ void Graph::printMinSpanTree(){
         cout<<"-<"<<a.edgeWeight<<">-";
         cout<<a.vertexName2<<'\t';
     }
+    cout<<endl;
 }
 
 
@@ -231,8 +234,9 @@ int main(int argc, const char * argv[]) {
     testGraph.insertEdge('e' , 'f', 1);
     cout<<"电网建成"<<endl;
     
-    testGraph.getMinSpanTree('a');//测试getMinSpanTree()函数,bug
-    testGraph.printMinSpanTree();
+    testGraph.getMinSpanTree('a');//测试getMinSpanTree()函数,pass(has a small problem)
+    testGraph.printMinSpanTree();//pass
+    cout<<"endl"<<endl;
 #else
     char order;
     int graphSize;
