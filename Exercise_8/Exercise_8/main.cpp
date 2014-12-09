@@ -16,7 +16,7 @@
 #include <set>
 #include <string>
 #include <map>
-#define RUN
+//#define RUN
 using namespace std;
 
 //各种节点struct
@@ -184,19 +184,20 @@ void Graph::getMinSpanTree(char startVertex){
         sort(edgeSequence.begin(), edgeSequence.end() , &compare);//按权重对edgeSequence的边进行排序
         
         //将找到的最小权重边存入minSpanTree中
-        node.vertexName1 = vertexTable[minWeightVertexNum].vertexName;//不应该将minWeightVertexNum的节点名存入node.vertexName1中,它有可能不是最小权重边的节点,如何解决这个问题!!!!!!!!
+        node.vertexName1 = vertexTable[minWeightVertexNum].vertexName;//当有很多边权重相同时不应该将minWeightVertexNum的节点名存入node.vertexName1中,它有可能不是最小权重边的节点,如何解决这个问题!!!!!!!!
         
         node.vertexName2 = vertexTable[edgeSequence[0].dest].vertexName;
         node.edgeWeight = edgeSequence[0].weight;
         minSpanTree.push_back(node);
         
         minWeightVertexNum =  edgeSequence[0].dest;
+        vertexSet.insert(minWeightVertexNum);
         edgeSequence.clear();
     }
 }
 
 //打印最小生成树
-void Graph::printMinSpanTree(){
+void Graph::printMinSpanTree(){//最后一个节点重复输出是几个意思?bug!!!
     for (minSpanTreeNode a : minSpanTree){
         cout<<a.vertexName1;
         cout<<"-<"<<a.edgeWeight<<">-";
@@ -238,79 +239,63 @@ int main(int argc, const char * argv[]) {
     testGraph.printMinSpanTree();//pass
     cout<<"endl"<<endl;
 #else
-    char order;
+    char inputOrder;
     int graphSize;
-    string orderString;
+    char nameChar;
     char vertexName1;
     char vertexName2;
     int edgeWeight;
     Graph *minSpanTree = nullptr;
-    while (1) {
+    while ( 1 ) {
         cout<<"请选择操作:";
-        cin>>order;
-        switch (order) {
-            case 'a':
-            case 'A':
-                cout<<"请输入顶点的个数:";
-                cin>>graphSize;
-                minSpanTree = new Graph(graphSize);
-                cout<<"请依次输入各顶点的名称:";
-                cin>>graphSize;
-                for (char verTexName :orderString){
-                    if (verTexName != ' ') {
-                        minSpanTree->insertVertex(verTexName);
-                    }
-                }
-                cout<<endl;
-                break;
-            case 'b':
-            case 'B':
-                if (nullptr == minSpanTree) {
-                    cout<<"请先创建电网顶点!"<<endl;
-                }else{
-                    while (1) {
-                        cout<<"请输入两个顶点及边:";
-                        scanf("%c %c %d",vertexName1,vertexName2,edgeWeight);//scanf怎么用？
-                        if (vertexName1 == '?') {
-                            break;
-                        }
-                        minSpanTree->insertEdge(vertexName1, vertexName2, edgeWeight);
-                        }
-                    }
-                cout<<endl;
-                break;
-            case 'c':
-            case 'C':
-                if (nullptr == minSpanTree) {
-                    cout<<"请先创建电网顶点!"<<endl;
-                }else{
-                    cout<<"请输入起始顶点:";
+        cin>>inputOrder;
+        if (inputOrder == 'A'){
+            cout<<"请输入顶点的个数:";
+            cin>>graphSize;
+            minSpanTree = new Graph(graphSize);
+            cout<<"请依次输入各顶点的名称:";
+            for (int i = 0; i < graphSize; i++) {
+                cin>>nameChar;
+                minSpanTree->insertVertex(nameChar);
+            }
+        }else if ('B' == inputOrder){
+            if (nullptr == minSpanTree) {
+                cout<<"请先创建电网顶点!"<<endl;
+            }else{
+                while (1) {
+                    cout<<"请输入两个顶点及边:";
                     cin>>vertexName1;
-                    minSpanTree->getMinSpanTree(vertexName1);
-                    cout<<"生成Prim最小生成树!"<<endl;
-                    cout<<endl;
+                    cin>>vertexName2;
+                    cin>>edgeWeight;
+                    if (vertexName1 == '?') {
+                        break;
+                    }
+                    minSpanTree->insertEdge(vertexName1, vertexName2, edgeWeight);
                 }
-                break;
-            case 'd':
-            case 'D':
-                if (nullptr == minSpanTree) {
-                    cout<<"请先创建电网顶点!"<<endl;
-                }else{
-                    cout<<"最小生成树的顶点及边为:"<<endl;
-                    minSpanTree->printMinSpanTree();
-
-                }
-                break;
-            case 'e':
-            case 'E':
-                exit(0);
-                break;
-            default:
-                cout<<"输入有误，请重新输入!"<<endl;
-                break;
+            }
+            cout<<endl;
+        }else if ('C' == inputOrder){
+            if (nullptr == minSpanTree) {
+                cout<<"请先创建电网顶点!"<<endl;
+            }else{
+                cout<<"请输入起始顶点:";
+                cin>>vertexName1;
+                minSpanTree->getMinSpanTree(vertexName1);
+                cout<<"生成Prim最小生成树!"<<endl;
+                cout<<endl;
+            }
+        }else if ('D' == inputOrder){
+            if (nullptr == minSpanTree) {
+                cout<<"请先创建电网顶点!"<<endl;
+            }else{
+                cout<<"最小生成树的顶点及边为:"<<endl;
+                minSpanTree->printMinSpanTree();
+            }
+        }else if ('E' == inputOrder) {
+            exit(0);
+        }else{
+            cout<<"输入有误，请重新输入!"<<endl;
         }
-
     }
 #endif
-    
 }
