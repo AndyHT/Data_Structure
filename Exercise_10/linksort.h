@@ -6,16 +6,20 @@
 //  Copyright (c) 2014年 一川. All rights reserved.
 //
 
-struct node{
-    int key;
-    node *next;
+#include "sort.h"
+using namespace std;
+
+class LinkSort :public Sort{
+private:
+    
+public:
+    void insertSort();//插入排序
+
 };
 
-class LinkSort{
-private:
-    node *head;
-public:
-    LinkSort(){
-        head = nullptr;
+
+void LinkSort::insertSort(){
+    for (int i = 0; i < 10000; i++) {
+        
     }
-};
+}

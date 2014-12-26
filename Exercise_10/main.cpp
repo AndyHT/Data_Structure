@@ -11,58 +11,10 @@
 #include <time.h>
 #include "arraysort.h"
 #include "linksort.h"
+#define MYDEBUG
 using namespace std;
 
-class Sort{
-private:
-    int randomNum[10000];
-    int exchangeTime;
-    clock_t start,end;
-    long time;
-public:
-    Sort(){
-        exchangeTime = 0;
-    }
-    ~Sort(){
-        ;
-    }
-    void getRandomNum();//得到random number
-    void bubbleSort();//冒泡排序
-};
-
-void Sort::getRandomNum(){//得到random number
-    srand(0);//设置种子为0
-    for (int i = 0; i < 10000; i++) {
-        randomNum[i] = rand() % 10001;
-    }
-}
-
-void Sort::bubbleSort(){//冒泡排序
-    bool exchange;
-    int i,j;
-    int temp;
-    start = clock();
-    for (i = 1; i < 10000; i++) {
-        exchange = false;
-        for (j = 9999; j >= i; j--) {
-            if (randomNum[j] < randomNum[j-1]) {
-                temp = randomNum[j];
-                randomNum[j] = randomNum[j-1];
-                randomNum[j-1] = temp;
-                exchange = true;
-                exchangeTime++;
-            }
-        }
-        if (!exchange) {
-            break;
-        }
-    }
-    end = clock();
-    time = (end - start)/CLOCKS_PER_SEC;
-}
-
 int main(int argc, const char * argv[]) {
-    
     
     
     return 0;
