@@ -10,19 +10,14 @@
 #include <iostream>
 using namespace std;
 
-void ArraySort::print(){
-    cout<<"Time:"<<time<<endl;
-    cout<<"Exchange Times:"<<exchangeTime<<endl;
-}
-
-void ArraySort::getRandomNum(){//得到random number
+void ArraySort::getRandomArray(){//得到random number函数,completed
     srand(0);//设置种子为0
     for (int i = 0; i < 10000; i++) {
-        randomNum[i] = rand() % 10001;
+        randomNum[i] = rand() % 100001;
     }
 }
 
-void ArraySort::bubbleSort(){//冒泡排序函数，pass
+void ArraySort::bubbleSort(){//冒泡排序函数，completed
     bool exchange;
     int i,j;
     int temp;
@@ -46,7 +41,7 @@ void ArraySort::bubbleSort(){//冒泡排序函数，pass
     time = (end - start)/CLOCKS_PER_SEC;
 }
 
-void ArraySort::selectSort(){//选择排序函数，pass
+void ArraySort::selectSort(){//选择排序函数，completed
     int temp;
     int minNum;
     start = clock();
@@ -68,7 +63,9 @@ void ArraySort::selectSort(){//选择排序函数，pass
     time = (end - start)/CLOCKS_PER_SEC;
 }
 
-
+void ArraySort::shellSort(){
+    
+}
 
 
 

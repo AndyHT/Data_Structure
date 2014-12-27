@@ -18,16 +18,16 @@ private:
 public:
     ArraySort(){
         exchangeTime = 0;
-        time = 0;
+        time = start = end = 0;
     }
     ~ArraySort(){
         ;
         
     }
-    void print();//输出交换次数和时间
-    void getRandomNum();//得到random number
+    void getRandomArray();//得到random number数组
     void bubbleSort();//冒泡排序
     void selectSort();//选择排序
+    void shellSort();//希尔排序
 };
 
 #endif /* defined(__Exercise_10__arraysort__) */

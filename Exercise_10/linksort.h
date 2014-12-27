@@ -11,12 +11,26 @@
 
 #include <stdio.h>
 #include "sort.h"
+
+struct node{
+    long key;
+    node *next;
+};
+
 class LinkSort :public Sort{
 private:
-    
+    node *head;
 public:
+    LinkSort(){
+        head = nullptr;
+        exchangeTime = 0;
+        time = start = end = 0;
+    }
+    ~LinkSort(){
+        ;
+    }
+    void getRandomLink();//得到随机数链表
     void insertSort();//插入排序
-    
 };
 
 
