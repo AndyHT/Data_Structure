@@ -89,12 +89,12 @@ void ArraySort::quickSort(int array[],int left,int right){//快速排序,complet
     }
 }
 
-void ArraySort::heapSort(){//bug
+void ArraySort::heapSort(){//堆排序,completed
+    heapSize = SIZE;
     for (int i = 0 ; i < SIZE; i++) {
         randomNum[i] = heap[0];
         heap[0] = heap[SIZE-(i + 1)];
-        heap[SIZE-1] = MAX;
-        minHeapIfy();
+        minHeapIfy(heapSize - i,0);
     }
 }
 

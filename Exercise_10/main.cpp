@@ -35,9 +35,19 @@ int main(int argc, const char * argv[]) {
     cout<<"completed"<<endl;
 //    link.insertSort();
 //    array.quickSort(array.getRandomArray(), 0, SIZE);
+    int a[8];
+    a[0] = 49;
+    a[1] = 38;
+    a[2] = 65;
+    a[3] = 97;
+    a[4] = 76;
+    a[5] = 13;
+    a[6] = 27;
+    a[7] = 50;
+//    array.copyArray(a);
     array.copyArray(array.getRandomArray());
     array.buildMinHeap();
-    array.heapSort();//bug
+    array.heapSort();
     cout<<"sortCompleted"<<endl;
     return 0;
 }

@@ -14,8 +14,44 @@ void MinHeap::buildMinHeap(){//建立最小堆,completed
     }
 }
 
-void MinHeap::minHeapIfy(){//维护最小堆
-    filterDown(0);
+void MinHeap::minHeapIfy(int currentSize, int current){//维护最小堆
+    int leftChild,rightChild;
+    int temp;
+    leftChild = current*2 + 1;
+    rightChild = current*2 + 2;
+    if (rightChild >= currentSize && leftChild < currentSize) {//只有左孩子
+        if (heap[current] > heap[leftChild]) {
+            temp = heap[current];
+            heap[current] = heap[leftChild];
+            heap[leftChild] = temp;
+            minHeapIfy(currentSize, leftChild);
+        }
+    }else if (leftChild >= currentSize && rightChild < currentSize){//只有右孩子
+        if (heap[current] > heap[rightChild]) {
+            temp = heap[current];
+            heap[current] = heap[rightChild];
+            heap[rightChild] = temp;
+            minHeapIfy(currentSize, rightChild);
+        }
+    }else if (leftChild < currentSize && rightChild < currentSize){//两个孩子都有
+        if (heap[current] > heap[leftChild] || heap[current] > heap[rightChild]) {
+            temp = heap[current];
+            if (heap[leftChild] < heap[rightChild]) {//与左孩子交换
+                heap[current] = heap[leftChild];
+                heap[leftChild] = temp;
+                minHeapIfy(currentSize, leftChild);
+            }else if (heap[rightChild] < heap[leftChild]){//与右孩子交换
+                heap[current] = heap[rightChild];
+                heap[rightChild] = temp;
+                minHeapIfy(currentSize, rightChild);
+            }else{//孩子相等时默认与左孩子交换
+                heap[current] = heap[leftChild];
+                heap[leftChild] = temp;
+                minHeapIfy(currentSize, leftChild);
+            }
+        }
+    }
+    //没有孩子时直接退出函数
 }
 
 void MinHeap::filterDown(int current){//下滤,completed

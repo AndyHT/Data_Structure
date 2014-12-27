@@ -18,10 +18,11 @@ using namespace std;
 class MinHeap{
 protected:
     int heap[SIZE];
+    int heapSize;
 public:
     void copyArray(int arrayCopy[]);//copy array
     void buildMinHeap();//建立最小堆
-    void minHeapIfy();//维护最小堆
+    void minHeapIfy(int heapSize,int current);//维护最小堆
     void filterDown(int current);//下滤
 };
 

@@ -10,6 +10,7 @@
 #define Exercise_10_sort_h
 
 #define SIZE 10000
+#define MYSIZE 8
 #include <time.h>
 #include <iostream>
 
