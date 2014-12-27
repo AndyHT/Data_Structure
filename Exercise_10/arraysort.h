@@ -11,8 +11,9 @@
 
 #include <stdio.h>
 #include "sort.h"
+#include "minheap.h"
 
-class ArraySort :public Sort{
+class ArraySort :public Sort,public MinHeap{
 private:
     int randomNum[SIZE];//随机数组
 public:
@@ -28,6 +29,7 @@ public:
     void bubbleSort();//冒泡排序
     void selectSort();//选择排序
     void quickSort(int s[],int i,int r);//快速排序
+    void heapSort();//堆排序
 };
 
 #endif /* defined(__Exercise_10__arraysort__) */

@@ -10,13 +10,20 @@
 //2、选择排序completed
 //3、直接插入排序completed
 //4、希尔排序
+//5、快速排序completed
+//6、堆排序
+//7、归并排序
+//8、基数排序
 
+//#define DEBUG_HEAP
 #include <iostream>
 #include "linksort.h"
 #include "arraysort.h"
+#include "minheap.h"
 using namespace std;
 
 int main(int argc, const char * argv[]) {
+    
 //    LinkSort link = *new LinkSort();
 //    link.getRandomLink();
     ArraySort array = *new ArraySort();
@@ -27,7 +34,10 @@ int main(int argc, const char * argv[]) {
 //    }
     cout<<"completed"<<endl;
 //    link.insertSort();
-    array.quickSort(array.getRandomArray(), 0, SIZE);
+//    array.quickSort(array.getRandomArray(), 0, SIZE);
+    array.copyArray(array.getRandomArray());
+    array.buildMinHeap();
+    array.heapSort();//bug
     cout<<"sortCompleted"<<endl;
     return 0;
 }
