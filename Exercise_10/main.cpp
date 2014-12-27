@@ -17,10 +17,17 @@
 using namespace std;
 
 int main(int argc, const char * argv[]) {
-    LinkSort link = *new LinkSort();
-    link.getRandomLink();
+//    LinkSort link = *new LinkSort();
+//    link.getRandomLink();
+    ArraySort array = *new ArraySort();
+//    int randomNum2[10000];
+//    srand(0);//设置种子为0
+//    for (int i = 0; i < SIZE; i++) {
+//        randomNum2[i] = rand() % (SIZE*10 + 1);
+//    }
     cout<<"completed"<<endl;
-    link.insertSort();
+//    link.insertSort();
+    array.quickSort(array.getRandomArray(), 0, SIZE);
     cout<<"sortCompleted"<<endl;
     return 0;
 }

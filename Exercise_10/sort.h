@@ -9,6 +9,7 @@
 #ifndef Exercise_10_sort_h
 #define Exercise_10_sort_h
 
+#define SIZE 10000
 #include <time.h>
 #include <iostream>
 

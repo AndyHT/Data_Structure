@@ -14,9 +14,9 @@ void LinkSort::getRandomLink(){//得到随机数链表，completed
     srand(0);
     node *p1,*p2;
     p1 = p2 =nullptr;
-    for (int i = 0; i < 10000; i++) {
+    for (int i = 0; i < SIZE; i++) {
         p1 = new node();
-        p1->key = random() % 100001;
+        p1->key = random() % (SIZE*10 + 1);
         if (0 == i) {
             head = p1;
         }else{
@@ -32,7 +32,8 @@ void LinkSort::insertSort(){//插入排序,completed
     node *temp;
     temp = nullptr;
     p1 = p2 = p3 = head;
-    for (int i = 0; i < 9999; i++) {
+    start = clock();
+    for (int i = 0; i < SIZE - 1; i++) {
         p2 = p1->next;
         if (p1->key > p2->key) {
             p3 = head;
@@ -45,8 +46,9 @@ void LinkSort::insertSort(){//插入排序,completed
                     }else{
                         p1->next = p2->next;
                         p2->next = p3;
-                        temp->next = p2;//bug
+                        temp->next = p2;
                     }
+                    exchangeTime++;
                     break;
                 }else{
                     temp = p3;
@@ -57,4 +59,10 @@ void LinkSort::insertSort(){//插入排序,completed
             p1 = p2;
         }
     }
+    end = clock();
+    time = (end - start)/CLOCKS_PER_SEC;
+}
+
+void LinkSort::shellSort(){//希尔排序
+    
 }

@@ -10,11 +10,12 @@
 #include <iostream>
 using namespace std;
 
-void ArraySort::getRandomArray(){//得到random number函数,completed
+int* ArraySort::getRandomArray(){//得到random number函数,completed
     srand(0);//设置种子为0
-    for (int i = 0; i < 10000; i++) {
-        randomNum[i] = rand() % 100001;
+    for (int i = 0; i < SIZE; i++) {
+        randomNum[i] = rand() % (SIZE*10 + 1);
     }
+    return randomNum;
 }
 
 void ArraySort::bubbleSort(){//冒泡排序函数，completed
@@ -22,9 +23,9 @@ void ArraySort::bubbleSort(){//冒泡排序函数，completed
     int i,j;
     int temp;
     start = clock();
-    for (i = 1; i < 10000; i++) {
+    for (i = 1; i < SIZE; i++) {
         exchange = false;
-        for (j = 9999; j >= i; j--) {
+        for (j = SIZE - 1; j >= i; j--) {
             if (randomNum[j] < randomNum[j-1]) {
                 temp = randomNum[j];
                 randomNum[j] = randomNum[j-1];
@@ -45,9 +46,9 @@ void ArraySort::selectSort(){//选择排序函数，completed
     int temp;
     int minNum;
     start = clock();
-    for (int i = 0; i < 10000; i++) {
+    for (int i = 0; i < SIZE; i++) {
         minNum = i;
-        for (int j = 9999; j > i; j--) {
+        for (int j = SIZE - 1; j > i; j--) {
             if (randomNum[minNum] > randomNum[j]) {
                 minNum = j;
             }
@@ -63,14 +64,30 @@ void ArraySort::selectSort(){//选择排序函数，completed
     time = (end - start)/CLOCKS_PER_SEC;
 }
 
-void ArraySort::shellSort(){
-    
+void ArraySort::quickSort(int array[],int left,int right){//快速排序,completed
+    if (left < right)
+    {
+        int i = left, j = right, x = array[left];
+        while (i < j)
+        {
+            while(i < j && array[j] >= x){ // 从右向左找第一个小于x的数
+                j--;
+            }
+            if(i < j){
+                array[i++] = array[j];
+            }
+            while(i < j && array[i] < x){ // 从左向右找第一个大于等于x的数
+                i++;
+            }
+            if(i < j){
+                array[j--] = array[i];
+            }
+        }
+        array[i] = x;
+        quickSort(array, left, i - 1); // 递归调用
+        quickSort(array, i + 1, right);
+    }
 }
-
-
-
-
-
 
 
 

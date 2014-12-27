@@ -31,6 +31,7 @@ public:
     }
     void getRandomLink();//得到随机数链表
     void insertSort();//插入排序
+    void shellSort();//希尔排序
 };
 
 
