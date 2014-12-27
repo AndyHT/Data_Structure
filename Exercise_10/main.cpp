@@ -8,10 +8,8 @@
 //1、冒泡排序
 
 #include <iostream>
-#include <time.h>
-#include "arraysort.h"
 #include "linksort.h"
-#define MYDEBUG
+#include "arraysort.h"
 using namespace std;
 
 int main(int argc, const char * argv[]) {
