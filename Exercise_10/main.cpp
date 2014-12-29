@@ -24,16 +24,70 @@ using namespace std;
 
 int main(int argc, const char * argv[]) {
     
+    cout<<"**           排序算法比较          **"<<endl;
+    cout<<"==================================="<<endl;
+    cout<<"**          1————冒泡排序         **"<<endl;
+    cout<<"**          2————选择排序         **"<<endl;
+    cout<<"**          3————直接插入排序      **"<<endl;
+    cout<<"**          4————希尔排序         **"<<endl;
+    cout<<"**          5————快速排序         **"<<endl;
+    cout<<"**          6————堆排序           **"<<endl;
+    cout<<"**          7————归并排序         **"<<endl;
+    cout<<"**          8————基数排序         **"<<endl;
+    cout<<"**          9————退出程序         **"<<endl;
+    cout<<"==================================="<<endl;
+
+    int order = 0;
+    ArraySort sort = *new ArraySort();
+    int arraySize;
+    cout<<"请输入要产生随机数的个数:";
+    cin>>arraySize;
+    while (9 == order) {
+        cout<<"请选择排序算法:";
+        cin>>order;
+        switch (order) {
+            case 1:
+                <#statements#>
+                break;
+            case 2:
+                <#statements#>
+                break;
+            case 3:
+                <#statements#>
+                break;
+            case 4:
+                <#statements#>
+                break;
+            case 5:
+                <#statements#>
+                break;
+            case 6:
+                <#statements#>
+                break;
+            case 7:
+                <#statements#>
+                break;
+            case 8:
+                <#statements#>
+                break;
+            case 9:
+                <#statements#>
+                break;
+            default:
+                break;
+        }
+    }
+    
 //    LinkSort link = *new LinkSort();
 //    link.getRandomLink();
-    ArraySort array = *new ArraySort();
+//    ArraySort array = *new ArraySort();
 //    int randomNum2[10000];
 //    srand(0);//设置种子为0
 //    for (int i = 0; i < SIZE; i++) {
 //        randomNum2[i] = rand() % (SIZE*10 + 1);
 //    }
-    array.getRandomArray();
-    cout<<"completed"<<endl;
+//    array.getRandomArray();
+//    cout<<"completed"<<endl;
 //    link.insertSort();
 //    array.quickSort(array.getRandomArray(), 0, SIZE);
 //    int a[8];
@@ -49,7 +103,7 @@ int main(int argc, const char * argv[]) {
 //    array.copyArray(array.getRandomArray());
 //    array.buildMinHeap();
 //    array.heapSort();
-    array.shellSort();
-    cout<<"sortCompleted"<<endl;
+//    array.shellSort();
+//    cout<<"sortCompleted"<<endl;
     return 0;
 }
