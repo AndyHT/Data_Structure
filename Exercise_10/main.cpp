@@ -11,8 +11,8 @@
 //3、直接插入排序completed
 //4、希尔排序
 //5、快速排序completed
-//6、堆排序
-//7、归并排序
+//6、堆排序completed
+//7、归并排序completed
 //8、基数排序
 
 //#define DEBUG_HEAP
@@ -32,22 +32,24 @@ int main(int argc, const char * argv[]) {
 //    for (int i = 0; i < SIZE; i++) {
 //        randomNum2[i] = rand() % (SIZE*10 + 1);
 //    }
+    array.getRandomArray();
     cout<<"completed"<<endl;
 //    link.insertSort();
 //    array.quickSort(array.getRandomArray(), 0, SIZE);
-    int a[8];
-    a[0] = 49;
-    a[1] = 38;
-    a[2] = 65;
-    a[3] = 97;
-    a[4] = 76;
-    a[5] = 13;
-    a[6] = 27;
-    a[7] = 50;
+//    int a[8];
+//    a[0] = 49;
+//    a[1] = 38;
+//    a[2] = 65;
+//    a[3] = 97;
+//    a[4] = 76;
+//    a[5] = 13;
+//    a[6] = 27;
+//    a[7] = 50;
 //    array.copyArray(a);
-    array.copyArray(array.getRandomArray());
-    array.buildMinHeap();
-    array.heapSort();
+//    array.copyArray(array.getRandomArray());
+//    array.buildMinHeap();
+//    array.heapSort();
+    array.mergeSort();
     cout<<"sortCompleted"<<endl;
     return 0;
 }

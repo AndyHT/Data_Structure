@@ -89,14 +89,45 @@ void ArraySort::quickSort(int array[],int left,int right){//快速排序,complet
     }
 }
 
-void ArraySort::heapSort(){//堆排序,completed
+void ArraySort::heapSort(){//堆排序,completed(需要统计交换次数)
     heapSize = SIZE;
+    exchangeTime = 0;
+    start = clock();
     for (int i = 0 ; i < SIZE; i++) {
         randomNum[i] = heap[0];
         heap[0] = heap[SIZE-(i + 1)];
         minHeapIfy(heapSize - i,0);
     }
+    end = clock();
+    time = (end - clock())/CLOCKS_PER_SEC;
 }
+
+void ArraySort::mergeSort(){//归并排序,completed(需要统计交换次数)
+    int *p = new int[SIZE];
+    void merge(int a[], int first, int last, int temp[]);
+    start = clock();
+    merge(randomNum, 0, SIZE - 1, p);
+    end = clock();
+    time = (end - start)/CLOCKS_PER_SEC;
+    delete[] p;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
