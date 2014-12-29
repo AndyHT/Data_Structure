@@ -9,11 +9,11 @@
 //1、冒泡排序completed
 //2、选择排序completed
 //3、直接插入排序completed
-//4、希尔排序
+//4、希尔排序completed
 //5、快速排序completed
 //6、堆排序completed
 //7、归并排序completed
-//8、基数排序
+//8、基数排序completed
 
 //#define DEBUG_HEAP
 #include <iostream>
@@ -49,7 +49,7 @@ int main(int argc, const char * argv[]) {
 //    array.copyArray(array.getRandomArray());
 //    array.buildMinHeap();
 //    array.heapSort();
-    array.mergeSort();
+    array.shellSort();
     cout<<"sortCompleted"<<endl;
     return 0;
 }

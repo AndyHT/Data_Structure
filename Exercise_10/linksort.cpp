@@ -62,7 +62,3 @@ void LinkSort::insertSort(){//插入排序,completed
     end = clock();
     time = (end - start)/CLOCKS_PER_SEC;
 }
-
-void LinkSort::shellSort(){//希尔排序
-    
-}

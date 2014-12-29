@@ -28,9 +28,11 @@ public:
     int* getRandomArray();//得到random number数组
     void bubbleSort();//冒泡排序
     void selectSort();//选择排序
+    void shellSort();//希尔排序
     void quickSort(int s[],int i,int r);//快速排序
     void heapSort();//堆排序
     void mergeSort();//归并排序
+    void radixSort();//基数排序
 };
 
 #endif /* defined(__Exercise_10__arraysort__) */
