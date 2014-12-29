@@ -29,6 +29,10 @@ public:
     ~LinkSort(){
         ;
     }
+    void print(){
+        std::cout<<"Time:"<<time<<std::endl;
+        std::cout<<"Exchange Times:"<<exchangeTime<<std::endl;
+    }
     void getRandomLink();//得到随机数链表
     void insertSort();//插入排序
 };

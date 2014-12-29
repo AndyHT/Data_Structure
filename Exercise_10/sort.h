@@ -14,16 +14,13 @@
 #include <time.h>
 #include <iostream>
 
+//int SIZE;
+
 class Sort{
 protected:
     clock_t start,end;
     long time;
     int exchangeTime;
-public:
-    void print(){
-        std::cout<<"Time:"<<time<<std::endl;
-        std::cout<<"Exchange Times:"<<exchangeTime<<std::endl;
-    }
 };
 
 #endif

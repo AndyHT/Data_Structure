@@ -36,44 +36,63 @@ int main(int argc, const char * argv[]) {
     cout<<"**          8————基数排序         **"<<endl;
     cout<<"**          9————退出程序         **"<<endl;
     cout<<"==================================="<<endl;
-
+//时间需要优化为毫秒
     int order = 0;
+//    ArraySort sort;//= *new ArraySort();
+//    int arraySize;
+//    cout<<"请输入要产生随机数的个数:";
+//    cin>>arraySize;
+//    const int SIZE = arraySize;
     ArraySort sort = *new ArraySort();
-    int arraySize;
-    cout<<"请输入要产生随机数的个数:";
-    cin>>arraySize;
-    while (9 == order) {
+    LinkSort link_sort = *new LinkSort();
+    while (1) {
         cout<<"请选择排序算法:";
         cin>>order;
         switch (order) {
             case 1:
-                <#statements#>
+                sort.getRandomArray();
+                sort.bubbleSort();
+                sort.print();
                 break;
             case 2:
-                <#statements#>
+                sort.getRandomArray();
+                sort.selectSort();
+                sort.print();
                 break;
             case 3:
-                <#statements#>
+                link_sort.getRandomLink();
+                link_sort.insertSort();
+                link_sort.print();
                 break;
             case 4:
-                <#statements#>
+                sort.getRandomArray();
+                sort.shellSort();
+                sort.print();
                 break;
             case 5:
-                <#statements#>
+                sort.quickSort(sort.getRandomArray(), 0, SIZE);
+                sort.print();
                 break;
-            case 6:
-                <#statements#>
+            case 6://时间有问题
+                sort.getRandomArray();
+                sort.heapSort();
+                sort.print();
                 break;
-            case 7:
-                <#statements#>
+            case 7://没计算交换次数
+                sort.getRandomArray();
+                sort.mergeSort();
+                sort.print();
                 break;
-            case 8:
-                <#statements#>
+            case 8://没计算交换次数
+                sort.getRandomArray();
+                sort.radixSort();
+                sort.print();
                 break;
             case 9:
-                <#statements#>
+                exit(0);
                 break;
             default:
+                cout<<"输入有误，请重新输入"<<endl;
                 break;
         }
     }

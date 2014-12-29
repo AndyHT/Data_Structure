@@ -20,12 +20,18 @@ public:
     ArraySort(){
         exchangeTime = 0;
         time = start = end = 0;
+//        randomNum = new int[size];
+//        SIZE = size;
     }
     ~ArraySort(){
         ;
         
     }
     int* getRandomArray();//得到random number数组
+    void print(){
+        std::cout<<"Time:"<<time<<std::endl;
+        std::cout<<"Exchange Times:"<<exchangeTime<<std::endl;
+    }
     void bubbleSort();//冒泡排序
     void selectSort();//选择排序
     void shellSort();//希尔排序

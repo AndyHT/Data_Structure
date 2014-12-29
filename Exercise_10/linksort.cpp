@@ -11,6 +11,7 @@
 using namespace std;
 
 void LinkSort::getRandomLink(){//得到随机数链表，completed
+//    SIZE = size;
     srand(0);
     node *p1,*p2;
     p1 = p2 =nullptr;
