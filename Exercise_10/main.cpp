@@ -15,6 +15,7 @@
 //7、归并排序completed
 //8、基数排序completed
 
+//堆、归并、基数排序快的吓人,不正常
 //#define DEBUG_HEAP
 #include <iostream>
 #include "linksort.h"
@@ -40,7 +41,8 @@ int main(int argc, const char * argv[]) {
     int order = 0;
 //    ArraySort sort;//= *new ArraySort();
 //    int arraySize;
-//    cout<<"请输入要产生随机数的个数:";
+    cout<<"请输入要产生随机数的个数:";
+    cout<<10000<<endl;
 //    cin>>arraySize;
 //    const int SIZE = arraySize;
     ArraySort sort = *new ArraySort();
@@ -52,12 +54,14 @@ int main(int argc, const char * argv[]) {
             case 1:
                 sort.getRandomArray();
                 sort.bubbleSort();
-                sort.print();
+                cout<<"冒泡";
+                sort.print(1);
                 break;
             case 2:
                 sort.getRandomArray();
                 sort.selectSort();
-                sort.print();
+                cout<<"选择";
+                sort.print(2);
                 break;
             case 3:
                 link_sort.getRandomLink();
@@ -67,26 +71,31 @@ int main(int argc, const char * argv[]) {
             case 4:
                 sort.getRandomArray();
                 sort.shellSort();
-                sort.print();
+                cout<<"希尔";
+                sort.print(4);
                 break;
             case 5:
                 sort.quickSort(sort.getRandomArray(), 0, SIZE);
-                sort.print();
+                cout<<"快速";
+                sort.print(5);
                 break;
-            case 6://时间有问题
+            case 6://没计算交换次数
                 sort.getRandomArray();
                 sort.heapSort();
-                sort.print();
+                cout<<"堆";
+                sort.print(6);
                 break;
             case 7://没计算交换次数
                 sort.getRandomArray();
                 sort.mergeSort();
-                sort.print();
+                cout<<"归并";
+                sort.print(7);
                 break;
             case 8://没计算交换次数
                 sort.getRandomArray();
                 sort.radixSort();
-                sort.print();
+                cout<<"基数";
+                sort.print(8);
                 break;
             case 9:
                 exit(0);

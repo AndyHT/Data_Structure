@@ -19,6 +19,7 @@ class MinHeap{
 protected:
     int heap[SIZE];
     int heapSize;
+    int changeTimes;
 public:
     void copyArray(int arrayCopy[]);//copy array
     void buildMinHeap();//建立最小堆

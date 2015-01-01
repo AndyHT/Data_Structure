@@ -30,8 +30,8 @@ public:
         ;
     }
     void print(){
-        std::cout<<"Time:"<<time<<std::endl;
-        std::cout<<"Exchange Times:"<<exchangeTime<<std::endl;
+        std::cout<<"直接插入排序所用时间:"<<time<<" ms"<<std::endl;
+        std::cout<<"直接插入排序交换次数:"<<exchangeTime<<std::endl;
     }
     void getRandomLink();//得到随机数链表
     void insertSort();//插入排序

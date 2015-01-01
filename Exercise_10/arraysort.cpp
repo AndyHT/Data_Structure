@@ -12,7 +12,8 @@ using namespace std;
 
 //得到random number函数,completed
 int* ArraySort::getRandomArray(){
-    srand(0);//设置种子为0
+    srand((int)clock());//设置种子为随机时间
+//    srand(0);//设置种子为0
     for (int i = 0; i < SIZE; i++) {
         randomNum[i] = rand() % (SIZE*10 + 1);
     }
@@ -41,7 +42,7 @@ void ArraySort::bubbleSort(){
         }
     }
     end = clock();
-    time = (end - start)/CLOCKS_PER_SEC;
+    time = (end - start)/MYCLOCKS_PER_SEC;
 }
 
 //选择排序函数，completed
@@ -64,7 +65,7 @@ void ArraySort::selectSort(){
         }
     }
     end = clock();
-    time = (end - start)/CLOCKS_PER_SEC;
+    time = (end - start)/MYCLOCKS_PER_SEC;
 }
 
 //希尔排序,completed(需要统计交换次数)
@@ -109,8 +110,9 @@ void ArraySort::heapSort(){
         heap[0] = heap[SIZE-(i + 1)];
         minHeapIfy(heapSize - i,0);
     }
+    exchangeTime = changeTimes;
     end = clock();
-    time = (end - clock())/CLOCKS_PER_SEC;
+    time = (end - start)/MYCLOCKS_PER_SEC;
 }
 
 //归并排序,completed(需要统计交换次数)
@@ -120,7 +122,7 @@ void ArraySort::mergeSort(){
     start = clock();
     merge(randomNum, 0, SIZE - 1, p);
     end = clock();
-    time = (end - start)/CLOCKS_PER_SEC;
+    time = (end - start)/MYCLOCKS_PER_SEC;
     delete[] p;
 }
 
@@ -130,7 +132,7 @@ void ArraySort::radixSort(){
     start = clock();
     radix_sort(randomNum, SIZE);
     end = clock();
-    time = (end - start)/CLOCKS_PER_SEC;
+    time = (end - start)/MYCLOCKS_PER_SEC;
 }
 
 

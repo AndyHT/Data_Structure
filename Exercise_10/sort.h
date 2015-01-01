@@ -11,6 +11,7 @@
 
 #define SIZE 10000
 #define MYSIZE 8
+#define MYCLOCKS_PER_SEC 10000
 #include <time.h>
 #include <iostream>
 

@@ -24,6 +24,7 @@ void MinHeap::minHeapIfy(int currentSize, int current){//维护最小堆
             temp = heap[current];
             heap[current] = heap[leftChild];
             heap[leftChild] = temp;
+            changeTimes++;
             minHeapIfy(currentSize, leftChild);
         }
     }else if (leftChild >= currentSize && rightChild < currentSize){//只有右孩子
@@ -31,6 +32,7 @@ void MinHeap::minHeapIfy(int currentSize, int current){//维护最小堆
             temp = heap[current];
             heap[current] = heap[rightChild];
             heap[rightChild] = temp;
+            changeTimes++;
             minHeapIfy(currentSize, rightChild);
         }
     }else if (leftChild < currentSize && rightChild < currentSize){//两个孩子都有
@@ -39,14 +41,17 @@ void MinHeap::minHeapIfy(int currentSize, int current){//维护最小堆
             if (heap[leftChild] < heap[rightChild]) {//与左孩子交换
                 heap[current] = heap[leftChild];
                 heap[leftChild] = temp;
+                changeTimes++;
                 minHeapIfy(currentSize, leftChild);
             }else if (heap[rightChild] < heap[leftChild]){//与右孩子交换
                 heap[current] = heap[rightChild];
                 heap[rightChild] = temp;
+                changeTimes++;
                 minHeapIfy(currentSize, rightChild);
             }else{//孩子相等时默认与左孩子交换
                 heap[current] = heap[leftChild];
                 heap[leftChild] = temp;
+                changeTimes++;
                 minHeapIfy(currentSize, leftChild);
             }
         }

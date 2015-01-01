@@ -61,5 +61,5 @@ void LinkSort::insertSort(){//插入排序,completed
         }
     }
     end = clock();
-    time = (end - start)/CLOCKS_PER_SEC;
+    time = (end - start)/MYCLOCKS_PER_SEC;
 }
